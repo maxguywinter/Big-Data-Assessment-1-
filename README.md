@@ -5,4 +5,4 @@ library(Amelia) #this package will enable us to use the missmap function to find
 
 
 
-missmap(IntOrg_NCD_variables_2022_02_02, col=c("black", "purple"), legend = FALSE)
+missmap(IntOrg_NCD_variables_2022_02_02, col=c("black", "red"), legend = FALSE)
