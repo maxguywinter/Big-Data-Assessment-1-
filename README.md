@@ -65,23 +65,30 @@
 >MyDataCleaned<-dplyr::rename(MyDataCleaned, ID = "Identification No.")
 
 #re-coding
-
 >MyDataCleaned[MyDataCleaned == "" | MyDataCleaned == " "] <- NA
+
 >MyDataCleaned[MyDataCleaned == "N/A" | MyDataCleaned == "n/a" | MyDataCleaned == "N/a"| MyDataCleaned == "-"] <- NA
 
 >missmap(MyDataCleaned, col=c("blue", "red"), legend = FALSE) # Checks for missing data. 
+
 >pct_miss(MyDataCleaned) # Percent of ALL data frame values that are missing
+
 >pct_miss_case(MyDataCleaned) # Percent of rows with any value missing
+
 >pct_complete_case(MyDataCleaned) # Percent of rows that are complete (no values missing) 
 
 nrow(MyDataCleaned)
 
 >MyDataCleaned[complete.cases(MyDataCleaned),]
+
 >na.omit(MyDataCleaned)
+
 >na.exclude(MyDataCleaned)
 
 >MyDataCleaned %>% drop_na(Country, ISO, Sex, Year, Mean_BMI_children, Prevalence_obesity_children, Prevalence_overweight_children, Prevalence_underweight_children, Mean_BMI_adults, Prevalence_obesity_adults,Prevalence_underweight_adults,Prevalence_morbid_obesity_adults,Diabetes_prevalence, Systolic_blood_pressure, Prevalence_raised_blood_pressure, Region, Superregion, Years_of_education, Urbanisation, Western_diet_score, GDP_USD)
 
 >nrow(MyDataCleaned)
+
 >na.fail(MyDataCleaned)
+
 >missmap(MyDataCleaned, col=c("blue", "red"), legend = FALSE) # Checks for missing data.
