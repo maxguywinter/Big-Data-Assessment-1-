@@ -49,5 +49,4 @@
 >str(data) # shows the observations and variables of the data.
 
 # Exploratory Data Analysis
-
 >missmap(data, col=c("black", "purple"), legend = FALSE)
