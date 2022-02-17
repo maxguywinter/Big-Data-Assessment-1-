@@ -118,6 +118,32 @@
 
 
 
+
+#histogram of education on its own 
+>h <- hist(Years_of_education,ylim=c(0,1500), main = "histogram showing years of education", breaks = 20, xlab = "years of education", col = "Red")
+
+>text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+
+#histogram of diabetes prevalence on its own
+>g <- hist(Diabetes_prevalence,ylim=c(0,5000), main = "histogram showing prevalance of diabetes", breaks = 20, xlab = "prevalance of diabetes", col = "Red")
+
+>text(g$mids,g$counts,labels=g$counts, adj=c(0.5, -0.5))
+
+#histogram of systolic blood pressure on its own
+>d<- hist(Systolic_blood_pressure, ylim=c(0,3000), main = "histogram showing systolic blood pressure", breaks = 15, xlab = "systolic blood pressure", col = "Red")
+
+>text(d$mids,d$counts,labels=d$counts, adj=c(0.5, -0.5))
+
+#histogram of GDP_USD on its own
+>hist(GDP_USD,ylim=c(0,3000), main = "histogram showing GDP per capita in USD", breaks = 100, xlab = "GDP_USD", col = "Red")
+
+#histogram showing GDP per capita against super region
+>ggplot(df, aes(x=GDP_USD, color=Superregion)) +
+  geom_histogram(fill="white", alpha=0.5, position="identity")
+
+
+
+
 >df <- MyDataCleaned3
 >df <- MyDataCleaned3$GDP_USD
 >df <- na.omit(df)
