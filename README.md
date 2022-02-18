@@ -1,5 +1,3 @@
-# Big-Data-Assessment-1-
-
 ### Install Packages 
 library(corrplot) # for correlation matrix graph visualization.
 library(ggplot2) # for graph visualizations. 
@@ -319,6 +317,7 @@ Fig.31 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Western_diet_score, y = My
   labs(title = "Western Diest and Prevalence of Child Obesity", y = "Prevalence of Child Obesity", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.31") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 Fig.32 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Western_diet_score, y = MyDataCleaned$Prevalence_obesity_adults)) +
@@ -326,6 +325,7 @@ Fig.32 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Western_diet_score, y = My
   labs(title = "Western Diest and Prevalence of Adult Obesity", y = "Disabetes Prevalence", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.32") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 ggarrange(Fig.31, Fig.32+ rremove("x.text"), 
@@ -337,6 +337,7 @@ Fig.33 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = My
   labs(title = "Years of Education and Prevalence of Child Obesity", y = "Prevalence of Child Obesity", x = "Years of Education", tag = "Fig.33") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 Fig.34 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = MyDataCleaned$Prevalence_obesity_adults)) +
@@ -344,24 +345,23 @@ Fig.34 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = My
   labs(title = "Western Diest and Prevalence of Adult Obesity", y = "Prevalence of Adult Obesity", x = "Years of Education", tag = "Fig.34") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 ggarrange(Fig.33, Fig.34 + rremove("x.text"), 
           ncol = 2)
 
 # GDP and underweight child/adult
-Fig.35 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$GDP_USD, y = MyDataCleaned$Prevalence_underweight_children)) +
+Fig.35 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_children , y = MyDataCleaned$GDP_USD)) +
   geom_point(colour = "#1380A1") +
-  labs(title = "GDP($) and Prevalence of underweight Children", y = "Prevalence of underweight Children", x = "GDP($)", tag = "Fig.35") +
-  scale_x_discrete(guide = guide_axis(n.dodge=10)) +
-  guides(x = guide_axis(angle = 90)) +
+  labs(title = "GDP($) and Prevalence of underweight Children", y = "GDP($)", x = "Prevalence of underweight Children", tag = "Fig.35") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
-Fig.36 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$GDP_USD, y = MyDataCleaned$Prevalence_underweight_adults)) +
+Fig.36 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_adults, y = MyDataCleaned$GDP_USD)) +
   geom_point(colour = "#1380A1") +
-  labs(title = "GDP($) and Prevalence of underweight Adults", y = "Prevalence of underweight Adults", x = "GDP($)", tag = "Fig.36") +
-  scale_x_discrete(guide = guide_axis(n.dodge=10)) +
-  guides(x = guide_axis(angle = 90)) +
+  labs(title = "GDP($) and Prevalence of underweight Adults", y = "GDP($)", x = "Prevalence of underweight Adults", tag = "Fig.36") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 ggarrange(Fig.35, Fig.36+ rremove("x.text"), 
@@ -372,6 +372,7 @@ ggarrange(Fig.35, Fig.36+ rremove("x.text"),
 Fig.37 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Urbanisation, y = MyDataCleaned$Prevalence_overweight_children)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Urbanisation and Prevalence of Overweight Children", y = "Prevalence of Oveweight Children", x = "Urbanisation Score (0-1)", tag = "Fig.37") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 Fig.37
 
@@ -379,6 +380,7 @@ Fig.37
 Fig.38 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Mean_BMI_adults, y = MyDataCleaned$Systolic_blood_pressure)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Sysolic Blood Pressure and Mean BMI (Adults)", y = "Systolic Blood Pressure", x = "Mean BMI", tag = "Fig.38") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 Fig.38
 
@@ -386,6 +388,7 @@ Fig.38
 Fig.39 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Mean_BMI_adults, y = MyDataCleaned$Prevalence_obesity_adults)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Prevalence of Obesity and Mean BMI (Adults)", y = "Prevalence of Obesity", x = "Mean BMI", tag = "Fig.39") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 Fig.39
 
@@ -394,16 +397,18 @@ Fig.39
 Fig.40 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_overweight_children, y = MyDataCleaned$Prevalence_obesity_adults)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Prevalence of Adult Obesity and Overweight Children", y = "Prevalence of Adult Obesity", x = "Prevalence of Overweight Children", tag = "Fig.40") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 Fig.41 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_children, y = MyDataCleaned$Prevalence_underweight_adults)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Prevalence of Underweight Adults and Children", y = "Prevalence Underweight Adults", x = "Prevalence Underweight Children", tag = "Fig.41") +
+  geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
 ggarrange(Fig.40, Fig.41+ rremove("x.text"), 
           ncol = 2)
-          
+
 # Clustering 
 
 ### Install Packages 
@@ -419,8 +424,3 @@ df <- na.omit(df)
 df <- scale(df)
 head(df)
 str(df)
-          
-          
-          
-          
-          
