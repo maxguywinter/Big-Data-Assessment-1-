@@ -42,30 +42,30 @@
 ################################################################################
 library(corrplot) # for correlation matrix graph visualization.
 library(ggplot2) # for graph visualizations. 
-library(ggthemes)
-library(tidyverse) 
-library(Amelia) # 
-library(naniar)
-library(gridExtra)
-library(devtools)
-library(dplyr)
-library(effects)
-library(janitor)
-library(ggpubr)
+library(ggthemes) # for extra themes, geoms and scales from package "ggplot2"
+library(tidyverse) # set of packages for data representation and design
+library(Amelia) # for incomplete data
+library(naniar) # for plotting missing data and imputations
+library(gridExtra) # for drawing up tables and plots
+library(devtools) # for development tools - functions
+library(dplyr) # for handling large data
+library(effects) # for displaying graphs and tables
+library(janitor) # for cleaning data
+library(ggpubr) # for customizing graph visualizations from package "ggplot2"
 
-library(cluster)   
-library(factoextra) 
-library(dendextend)
-library(gplots)
+library(cluster) # for cluster analysis
+library(factoextra) # to help extract and visualize our analyses
+library(dendextend) # for creating visualizzing and comparing hierarchical clustering
+library(gplots) # for plotting data
 
 library(mlbench)
-library(caTools)
-library(caret)
-library(dismo)
-library(gbm)
-library(rpart)
-library(rpart.plot)
-library(randomForest)
+library(caTools) # for test and train split
+library(caret) # for plotting classification and regression models
+library(dismo) # for prediction of environmental similarity
+library(gbm) # for boosted regression model in classification
+library(rpart) # for building classificationa nd regression trees
+library(rpart.plot) # to plot "rpart" function
+library(randomForest) # for classification and regression of trees
 
 ##### DATA INPUT ###############################################################
 ##### The data are age- & sex-stratified summary statistics for each study.    #
