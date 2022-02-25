@@ -596,10 +596,10 @@ dend <- df2 %>% arcsin_transformation %>%
   dist %>% hclust(method = "com") %>% 
   as.dendrogram %>%
   set("branches_k_color", k = 3) %>% 
-  ladderize
+  ladderize # This code applies the arcsin transformation to the model using a clustering algorithm
 
 dend2 <- dend %>% 
-  set("labels", c(1:14000)) # change labels
+  set("labels", c(1:14000)) # This code organises the labels within the vectors 1 to 14000
 
 dend2 %>% labels
 
@@ -607,29 +607,28 @@ dend2 %>% labels
 gplots::heatmap.2(as.matrix(df2), 
                   main = "Heat Map",srtCol = 60, dendrogram = "row",
                   Rowv = dend2,Colv = "NA", trace="none", margins = c(8,8), cexCol = 0.5,     
-                  key.xlab = "Health Factors", denscol = "grey", density.info = "density",col = colorspace::diverge_hcl)
+                  key.xlab = "Health Factors", denscol = "grey", density.info = "density",col = colorspace::diverge_hcl) # This code allows us to examine our results through the use of a plot - we decided that a heat map was the best way to illustrate our clusters 
 
 ##### Hierarchical clustering methods ##########################################
 hclust_methods <- c("single", "complete", "average", "median")
-df2_dendlist <- dendlist()
-
+df2_dendlist <- dendlist() 
 for(i in seq_along(hclust_methods)) {
   tmp_dend <- df2 %>% arcsin_transformation %>% dist %>%hclust(method=hclust_methods[i]) %>% as.dendrogram 
   df2_dendlist<-dendlist(df2_dendlist,tmp_dend)
 }
-names(df2_dendlist) <- hclust_methods
+names(df2_dendlist) <- hclust_methods # This entire code allows us to look at the cophenetic correlation which is a measure of how similar the trees are to one another 
 
-corrplot::corrplot(cor.dendlist(df2_dendlist),"pie","lower")
+corrplot::corrplot(cor.dendlist(df2_dendlist),"pie","lower") # This code allows us to visualise the data from above using a correlation matrix
 
 ##### compare trees produced by different methods using a tanglegram ###########
 dend1 <- df2 %>% arcsin_transformation %>% dist %>% hclust(method = "complete") %>% 
-  as.dendrogram %>% color_branches(k=3) %>% ladderize
+  as.dendrogram %>% color_branches(k=3) %>% ladderize # This code displays the first dendogram  by using the complete linkage method
 
 dend2 <- df2 %>% arcsin_transformation %>% dist %>% hclust(method = "average") %>% 
-  as.dendrogram %>% color_branches(k=3) %>% ladderize
+  as.dendrogram %>% color_branches(k=3) %>% ladderize # The code display the second dendogram by using the mean linkage method
 
 dends<-dendlist(tree1 = dend1, tree2 = dend2) 
-dends %>% tanglegram(margin_inner = 7)
+dends %>% tanglegram(margin_inner = 7) # This code displays both dendograms in the tanglegram method - this helps us visualise btoh dendograms against one another 
 
 ##### Classification ###########################################################
 
