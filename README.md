@@ -635,32 +635,51 @@ dends %>% tanglegram(margin_inner = 7) # This code displays both dendograms in t
 ##### Decision trees ###########################################################
 
 ##### Decision tree Sex ########################################################
+#creating an initial tree using Sex as a response variable.
 tree_default <- rpart(MyDataCleaned$Sex ~ ., data = MyDataCleaned)
+#plotting the intial tree
 rpart.plot(tree_default,extra=2, under = TRUE, varlen=0, faclen=0)
 
+#creating a full tree that displays all variables necessary. 
 tree_full <- rpart(MyDataCleaned$Sex ~., data= MyDataCleaned, control=rpart.control(minsplit=2, cp=0))
+#plotting the full tree,
 rpart.plot(tree_full,extra=2,under=TRUE,varlen=0,faclen=0,cex=.7)
 
+#creating a confusion table to display the tree based on Sex.
 confusion_table<-table(MyDataCleaned$Sex, 	predict(tree_default,MyDataCleaned,type="class"))
+#viewing the confusion_table.
 confusion_table
 
+#calculating the number of predictions that are correct.
 correct <- sum(diag(confusion_table))
+#calculating the number of predictions that are incorrect.
 error <- sum(confusion_table)-correct
+#using both correct and incorrect values to calculate accuracy of predictions.
 accuracy <- correct / (correct+error);accuracy
+#creating a confusion matrix to display the predictions.
 confusionMatrix(data= predict(tree_default,MyDataCleaned,type="class"), reference = MyDataCleaned$Sex)
 
 ##### Decision tree Super Region ###############################################
+#creating an second tree that looks at Super Region.
 tree_default2 <- rpart(MyDataCleaned$Superregion ~ ., data = MyDataCleaned)
+#plotting the second tree.
 rpart.plot(tree_default2,extra=2, under = TRUE, varlen=0, faclen=0)
 
+#creating a second full tree that displays all variables for Super Region.
 tree_full2 <- rpart(MyDataCleaned$Superregion ~., data= MyDataCleaned, control=rpart.control(minsplit=2, cp=0))
+#plotting the second full tree.
 rpart.plot(tree_ful2l,extra=2,under=TRUE,varlen=0,faclen=0,cex=.7)
 
+#creating another confusion table based off the second initial tree for Super Region.
 confusion_table2<-table(MyDataCleaned$Superregion, 	predict(tree_default2,MyDataCleaned,type="class"))
+#showing the values of the second confusion table.
 confusion_table2
 
+#calculating the number of predictions based off the second confusion table that are correct.
 correct2 <- sum(diag(confusion_table2))
+#calculating the number of predictions based off the second confusion table that are incorrect.
 error2 <- sum(confusion_table2)-correct2
+#using both correct and incorrect values to calculate the accuracy of second confusion table.
 accuracy2 <- correct2 / (correct2+error2);accuracy2
 
 ##### Random Forest ############################################################
@@ -671,9 +690,12 @@ df3 <- MyDataCleaned[,c(4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,18)]
 ##### Data Train and Test sets #################################################
 set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
 
+#splitting the data so that the models are using 70% of the data. 
 split<-sample.split(df3, SplitRatio = 0.7)  
 training_set<-subset(df3,split==TRUE)
 test_set<-subset(df3,split==FALSE) 
+
+#the dim function shows us the number of variables and data entries for both training and test sets for df3.
 dim(training_set);dim(test_set)
 topredict_set<-test_set[1:18]  
 topredict_set2<-test_set[2:19]  
@@ -699,9 +721,11 @@ df4$Sex<-ifelse(df4$Sex=="Female",1,0)
 ##### Data Train and Test sets #################################################
 set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
 
+#splitting the data so that the models are using 70% of the data. 
 split2<-sample.split(df4, SplitRatio = 0.7)  
 training_set2<-subset(df4,split==TRUE)
 test_set2<-subset(df4,split==FALSE) 
+#the dim function shows us the number of variables and data entries for both training and test sets for df4.
 dim(training_set2);dim(test_set2)
  
 ##### Sex gbm ################################################################## (change learning rate in names to 05)
