@@ -317,19 +317,19 @@ Fig.21 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_raised_blood_pr
                  bins = 30) +
   labs(title = "Prevalence Raised Blood Pressure", x = "Prevalence Raised Blood Pressure") +
   theme_economist()
-Fig.21
+Fig.21 # Figure 21 is a histogram showing Prevalence Raised Blood Pressure from the cleaned data set.
 Fig.22 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education)) + # Years of Education
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "Years of Education", x = "Years of Education") +
   theme_economist()
-Fig.22
+Fig.22 # Figure 21 is a histogram showing Years of education using the cleaned data set.
 Fig.23 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$GDP_USD)) + # GDP
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "GDP($)", x = "GDP($)") +
   theme_economist()
-Fig.23
+Fig.23 # Figure 23 histogram displaying GDP in USD from the cleaned data sets.
 
 ##### Variable Comparisons ######################################################
 
@@ -342,6 +342,8 @@ Fig.24 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Years_of_education, x=  My
   guides(x = guide_axis(angle = 90)) +
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
+  
+Fig.24 # Figure 24 displays a box plot comparing Super Region and Years of education from the cleaned data set.
 
 Fig.25<- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Diabetes_prevalence, x=  MyDataCleaned$Region)) + # Region and Diabetes prevalence 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
@@ -351,6 +353,8 @@ Fig.25<- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Diabetes_prevalence, x=  My
   guides(x = guide_axis(angle = 90)) +
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
+  
+Fig.25 # Figure 25 displays a box plot comparing region with prevalence of diabetes using the cleaned data set.
 
 Fig.26 <-ggplot(MyDataCleaned, aes(y = MyDataCleaned$Urbanisation, x=  MyDataCleaned$Region)) + # Region and Urbanisation 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
@@ -361,15 +365,20 @@ Fig.26 <-ggplot(MyDataCleaned, aes(y = MyDataCleaned$Urbanisation, x=  MyDataCle
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
 
+Fig.26 # Figure 26 displays a box plot that looks to compare Region with urbanisation.
+
 Fig.27 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Western_diet_score, x=  MyDataCleaned$Superregion)) + # Super region and Western diet score
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
-  labs(title = "Westen Diet Score each Super Region", y = "Western Diet Score (-2.5-4.5)", x = "Super Region", tag = "Fig.27") +
+  labs(title = "Western Diet Score in each Super Region", y = "Western Diet Score (-2.5-4.5)", x = "Super Region", tag = "Fig.27") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
 
+Fig.27 # Figure 27 displays a box plot that compares Super Region and Western diet score 
+
+#ggarrange allows us to display the four figures 24,25,26 and 27 which show compare region with Prevelance of Diabetes and Urbanisation as well as Super region against Years of Education and Western Diet score.
 ggarrange(Fig.24, Fig.25, Fig.26,Fig.27 + rremove("x.text"), 
           ncol = 2, nrow = 2)
 
@@ -380,6 +389,8 @@ Fig.28 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Diabetes_prevalence, x=  M
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   theme_economist()
+  
+Fig.28 # Figure 28 displays a box plot that compares Sex and prevalence of Diabetes.
 
 Fig.29 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Years_of_education, x=  MyDataCleaned$Sex)) + # Sex and education (box plot)
   stat_boxplot(geom = "errorbar", width = 0.15) + 
@@ -389,12 +400,16 @@ Fig.29 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Years_of_education, x=  My
   guides(x = guide_axis(angle = 90)) +
   theme_economist()
 
+Fig.29 # Figure 2 displays a box plot comparing both genders with average years of education. 
+
 Fig.30 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_morbid_obesity_adults, x=  MyDataCleaned$Sex)) + # Sex and obesity (box plot)
   geom_boxplot() + 
   labs(title = "Prevalence of Adult Morbid Obesity for each Sex", y = "Morbid Obesity Prevalence", x = "Sex") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   theme_economist()
+  
+Fig.30 # Figure 30 displays a box plot comparing Sex with prevalence of morbid adult obesity. 
 
 Fig.31 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_adults, x=  MyDataCleaned$Sex)) + # Sex and obesity (box plot)
   geom_boxplot() + 
@@ -402,6 +417,10 @@ Fig.31 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_adu
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   theme_economist()
+  
+Fig.31 # Figure 31 illustrates a box plot comparing Sex with prevalence of underweight adults.
+
+# ggarange illustrates Figures 28,29,30 and 31 which show Prevalence of Morbid Adult Obesity, Underweight Adults, Diabetes and Years of Education.
 
 ggarrange(Fig.28, Fig.29, Fig.30, Fig.31 + rremove("x.text"), 
           labels = c("Fig.28", "Fig.29", "Fig.30", "Fig.31"),
@@ -410,22 +429,28 @@ ggarrange(Fig.28, Fig.29, Fig.30, Fig.31 + rremove("x.text"),
 ##### Scatter plots ############################################################
 Fig.32 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Western_diet_score, y = MyDataCleaned$Prevalence_obesity_children)) + # West diet score and Prevalence obesity children
   geom_point(colour = "#1380A1") +
-  labs(title = "Western Diest and Prevalence of Child Obesity", y = "Prevalence of Child Obesity", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.32") +
+  labs(title = "Western Diet and Prevalence of Child Obesity", y = "Prevalence of Child Obesity", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.32") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
+
+Fig.32 # Figure 32 displays a scatter plot showing Western Diet score being plotted against prevalence of childhood obesity.
 
 Fig.33 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Western_diet_score, y = MyDataCleaned$Prevalence_obesity_adults)) + # West diet score and Prevalence obesity adults
   geom_point(colour = "#1380A1") +
-  labs(title = "Western Diest and Prevalence of Adult Obesity", y = "Disabetes Prevalence", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.33") +
+  labs(title = "Western Diet and Prevalence of Adult Obesity", y = "Diabetes Prevalence", x = "Western Diet Score (-2.5-4.5)", tag = "Fig.33") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.33 # Figure 33 displays a scatter plot displaying Western Diet score against prevalence of adult obesity.
+
+# ggarange shows us Figures 32 and 33 to show Western Diet score against childhood and adult obesity. 
 ggarrange(Fig.32, Fig.33+ rremove("x.text"), 
           ncol = 2)
+
 
 Fig.34 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = MyDataCleaned$Prevalence_obesity_children)) + # education and Prevalence obesity children
   geom_point(colour = "#1380A1") +
@@ -435,14 +460,19 @@ Fig.34 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = My
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.34 # Figure 34 displays a scatter plot showing Years of Education against Prevelance of Child Obesity. 
+
 Fig.35 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education, y = MyDataCleaned$Prevalence_obesity_adults)) + # education and Prevalence obesity adults
   geom_point(colour = "#1380A1") +
-  labs(title = "Western Diest and Prevalence of Adult Obesity", y = "Prevalence of Adult Obesity", x = "Years of Education", tag = "Fig.35") +
+  labs(title = "Years of Education and prevelance of Adult Obesity", y = "Prevalence of Adult Obesity", x = "Years of Education", tag = "Fig.35") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.35 # Figure 35 displays a scatter plot showing Years of Education against Prevelance of Adult Obesity.
+
+#ggarrange allows us to display both Figure 34 and 35 to show Years of Education against both prevelance of Adult and Child Obesity.
 ggarrange(Fig.34, Fig.35 + rremove("x.text"), 
           ncol = 2)
 
@@ -452,12 +482,17 @@ Fig.36 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_chi
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.36 # Figure 36 displays a scatter plot showing GDP in USD compared with Prevelance of underweight Children.
+
 Fig.37 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_adults, y = MyDataCleaned$GDP_USD)) + # GDP and Prevalence underweight adults
   geom_point(colour = "#1380A1") +
   labs(title = "GDP($) and Prevalence of underweight Adults", y = "GDP($)", x = "Prevalence of underweight Adults", tag = "Fig.37") +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.37 # Figure 37 shows a scatter plot displaying GDP in USD against Prevelance of Underweight Adults.
+
+#ggarrange allows us to display the two figures 36 and 37 together which show GDP in USD compared with both prevelance of underweight Adults and Children.
 ggarrange(Fig.36, Fig.37+ rremove("x.text"), 
           ncol = 2)
 
@@ -466,21 +501,21 @@ Fig.38 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Urbanisation, y = MyDataCl
   labs(title = "Urbanisation and Prevalence of Overweight Children", y = "Prevalence of Oveweight Children", x = "Urbanisation Score (0-1)", tag = "Fig.38") +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
-Fig.38 # Urbanization and Prevalence of Overweight Children
+Fig.38 # Figure 38 displays a scatter plot showing Urbanisation against Prevelance of Overweight Children.
 
 Fig.39 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Mean_BMI_adults, y = MyDataCleaned$Systolic_blood_pressure)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Sysolic Blood Pressure and Mean BMI (Adults)", y = "Systolic Blood Pressure", x = "Mean BMI", tag = "Fig.39") +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
-Fig.39 # Systolic blood pressure and Mean BMI Adults
+Fig.39 # Figure 39 displays a scatter plot showing Systolic blood pressure against Mean BMI Adults.
 
 Fig.40 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Mean_BMI_adults, y = MyDataCleaned$Prevalence_obesity_adults)) +
   geom_point(colour = "#1380A1") +
   labs(title = "Prevalence of Obesity and Mean BMI (Adults)", y = "Prevalence of Obesity", x = "Mean BMI", tag = "Fig.40") +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
-Fig.40 # Adult Mean BMI and Prevalence obesity adults
+Fig.40 # Figure 40 displays a scatter plot showing Mean BMI against Prevalence obesity adults.
 
 Fig.41 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_overweight_children, y = MyDataCleaned$Prevalence_obesity_adults)) + # Prevalence overweight children and Prevalence obesity adults
   geom_point(colour = "#1380A1") +
@@ -488,12 +523,17 @@ Fig.41 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_overweight_chil
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.41 # Figure 41 displays a scatter plot displaying Prevelance of Overweight Children against Prevelance of Adult Obesity.
+
 Fig.42 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_underweight_children, y = MyDataCleaned$Prevalence_underweight_adults)) + # Prevalence underweight children and Prevalence underweight adults
   geom_point(colour = "#1380A1") +
-  labs(title = "Prevalence of Underweight Adults and Children", y = "Prevalence Underweight Adults", x = "Prevalence Underweight Children", tag = "Fig.42") +
+  labs(title = "Prevalence of Underweight Adults and Children", y = "Prevalence of Underweight Adults", x = "Prevalence of Underweight Children", tag = "Fig.42") +
   geom_smooth(method='lm', formula= y~x, se= FALSE, colour = "red") +
   theme_economist()
 
+Fig.42 # Figure 42 displays a scatter plot showing Prevelance of Underweight Children against Prevelance of Underweight Adults.
+
+#ggarrange allows us to display both Figure 41 and 42 which display Prevelance of Underweight Children against Prevelance of Underweight Adults as well as Prevelance of Overweight Children and Prevelance of Adult Obesity.
 ggarrange(Fig.41, Fig.42+ rremove("x.text"), 
           ncol = 2)
 
