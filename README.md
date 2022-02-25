@@ -555,41 +555,42 @@ fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4
 k2 <- kmeans(df2, centers = 2, nstart = 25)
 k3 <- kmeans(df2, centers = 3, nstart = 25)
 k4 <- kmeans(df2, centers = 4, nstart = 25)
-k5 <- kmeans(df2, centers = 5, nstart = 25)
+k5 <- kmeans(df2, centers = 5, nstart = 25) # K-means clustering groups similar items in the form of clusters - it is recommended to do between two and five clusters 
 
-p1 <- fviz_cluster(k2, geom = "point", data = df2) + ggtitle("k = 2") # plots to compare
+p1 <- fviz_cluster(k2, geom = "point", data = df2) + ggtitle("k = 2") 
 p2 <- fviz_cluster(k3, geom = "point",  data = df2) + ggtitle("k = 3")
 p3 <- fviz_cluster(k4, geom = "point",  data = df2) + ggtitle("k = 4")
-p4 <- fviz_cluster(k5, geom = "point",  data = df2) + ggtitle("k = 5")
-grid.arrange(p1, p2, p3, p4, nrow = 2)
+p4 <- fviz_cluster(k5, geom = "point",  data = df2) + ggtitle("k = 5") # These codes allow us to visualise the clusters in plots
+grid.arrange(p1, p2, p3, p4, nrow = 2) # This code allows us to see all four k-means clusters in one plot in order to compare them all
 
 ##### Elbow Method #############################################################
-set.seed(123)
-fviz_nbclust(df2, kmeans, method = "wss") # 4? clusters k
+set.seed(123) 
+fviz_nbclust(df2, kmeans, method = "wss") # This code displays the elbow method graph - from the graph we can see that 4 is the optimal number of clusters 
 
-##### Silhoutte Method #########################################################
-fviz_nbclust(df2, kmeans, method = "silhouette") # 3 clusters k 
+##### Silhouette Method #########################################################
+fviz_nbclust(df2, kmeans, method = "silhouette") # The code displays the silhouette method graph - from the graph we can see that 3 is the optimal number of clusters 
 
 ##### Gap Statistic ############################################################
 gap_stat <- clusGap(df2,FUN = kmeans, nstart = 25,K.max = 10, B = 50)
-fviz_gap_stat(gap_stat) # 10? clusters k
-set.seed(123)
-gap_stat <- clusGap(df2, FUN = kmeans, nstart = 25, # compute gap statistic
-                    K.max = 10, B = 50)
+fviz_gap_stat(gap_stat) # The code displays the gap statistic graph - from the graph we can see that 10 is the optimal number of clusters 
+
+set.seed(123) # This code allows us to compute the gap statistic
+gap_stat <- clusGap(df2, FUN = kmeans, nstart = 25, 
+                    K.max = 10, B = 50) # This code allows us to visualize the results and we can see that four is the optimal number of clusters
 
 ##### Interpretation of the clusters ###########################################
 final <- kmeans(df2, 4, nstart = 25)
-fviz_cluster(final, data = df2)
+fviz_cluster(final, data = df2) # Most of the approaches suggest that four is the optimal number of clusters
 
 df %>% 
   mutate(Cluster = final$cluster) %>% ##########################################
   group_by(Cluster) %>% 
-  summarise_all("mean") 
+  summarise_all("mean") # This code extracts and add descriptive statistics at the cluster level
 
 ##### Hierarchical clustering ##################################################
 
 ##### arcsin transformation #################################################### 
-arcsin_transformation <- function(x) asin(x/100)
+arcsin_transformation <- function(x) asin(x/100) # There is no package for the arcsin transformation therefore, here we are creating our own function to make it easier to use
 
 dend <- df2 %>% arcsin_transformation %>%
   dist %>% hclust(method = "com") %>% 
