@@ -60,7 +60,7 @@ library(gplots) # for plotting data
 
 library(mlbench)
 library(caTools) # for test and train split
-library(caret) # for plotting classification and regression models
+library(caret) # for plotting classification models
 library(dismo) # for prediction of environmental similarity
 library(gbm) # for boosted regression model in classification
 library(rpart) # for building classificationa nd regression trees
@@ -612,12 +612,9 @@ df3 <- MyDataCleaned[,c(4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,18)]
 ##### Data Train and Test sets #################################################
 set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
 
-#splitting the data so that the models are using 70% of the data. 
 split<-sample.split(df3, SplitRatio = 0.7)  
 training_set<-subset(df3,split==TRUE)
 test_set<-subset(df3,split==FALSE) 
-
-#the dim function shows us the number of variables and data entries for both training and test sets for df3.
 dim(training_set);dim(test_set)
 topredict_set<-test_set[1:18]  
 topredict_set2<-test_set[2:19]  
@@ -638,42 +635,29 @@ confusionMatrix(conf_matrix_forest2)
 
 ##### Data Coding/Cleaning for gbm #############################################
 df4 <- MyDataCleaned[,c(4,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,18)] 
-
-#changing the Sex variable to be numeric and have the values 0,1 to allow us to use family = "bernoulli" in gmb.step.
 df4$Sex<-ifelse(df4$Sex=="Female",1,0)
 
 ##### Data Train and Test sets #################################################
 set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
 
-#spliting the data so that the models are using 70% of the data.
 split2<-sample.split(df4, SplitRatio = 0.7)  
 training_set2<-subset(df4,split==TRUE)
-test_set2<-subset(df4,split==FALSE)
-#the dim function shows us the number of variables and data entries for both training and test sets for df4.
+test_set2<-subset(df4,split==FALSE) 
 dim(training_set2);dim(test_set2)
  
 ##### Sex gbm ################################################################## (change learning rate in names to 05)
-#gmb.x allows the user to choose which variables to include in a gmb.step function. gmb.y = 1 shows that we are using the first variable from the df as dependant variable (Sex). family = "bernoulli" is the nature of error structure which means our dependant variable has to be 0,1. tree. complexity is 5. learning rate is 0.05 but can be lowered to 0.01 if they want the gmb.step to include less trees.  
 sex.tc5.lr01 <- gbm.step(data=training_set2, gbm.x = 2:21, 
                             gbm.y = 1, family = "bernoulli", tree.complexity = 5, 	learning.rate = 0.005, bag.fraction = 0.5) 
 
-#creating a simplified model by dropping some explanatory variables.
 sex.simp <- gbm.simplify(sex.tc5.lr01, n.drops = 5)
-
-#the RFE deviance shows that the optimal number of explanatory variables to remove is 4 and that is done with the code below.
 sex.simp$pred.list[[4]]
 
-#recreating the sex gmb after eliminating the 4 explanatory variables that weren't necessary.
 sex.tc5.lr005.simp <- gbm.step(training_set2, 	gbm.x=sex.simp$pred.list[[4]], gbm.y=1, 
                                   tree.complexity=5, learning.rate=0.005)
 
-#running predictions using the test set looking at the output probability of the gender being male or female. 
+
 preds <- predict.gbm(sex.tc5.lr005.simp, test_set2, 	n.trees=sex.tc5.lr005.simp$gbm.call$best.trees, type="response")
-
-#creating a pred.limit value to use in the confusion matrix
 pred.limit<-0.25
-
-#creating a confusion matrix to show sensitivity, specificity and accuracy. 
 confusionMatrix(table(as.numeric(preds>pred.limit),
                       test_set2[,1]),positive="1")
 
