@@ -1,32 +1,43 @@
+
 ################################################################################
-# This code fits a Bayesian hierarchical model to metabolic risk factor data   #
-# using MCMC. The model includes linear and non-linear components, an age      #
-# model and a covariate model. The hierarchy has four levels: country, region, #
-# 'superregion' and world, which allows borrowing of strength from countries   #
-# and years with data to inform estimates for countries and years without data.#
+# This code processes and analyses non-communicable disease (NCD) variables    #
+# from the IntOrg_NCD_variables_2022_02_02 data set. The code was created and  #
+# tested on RStudio version 4.1.1 (2021-08-10). Code developed by Max Winter,  #
+# Andre Faid and Jessica Ndoci.                                                #
 #                                                                              #
-# Full details are provided in Finucane et al "Bayesian Estimation of          #
-# Population-Level Trends in Measures of Health Status", Statistical Science   #
-# 2014, and in the Appendix of Danaei et al "National, regional, and global    #
-# trends in systolic blood pressure since 1980: systematic analysis of health  #
-# examination surveys and epidemiological studies with 786 country-years and   #
-# 5.4 million participants", Lancet 2011.                                      #
-#                                                                              #
-# This version of the code is based on the code used to fit the model to mean  #
-# BMI data for NCD Risk Factor Collaboration "Trends in adult body-mass index  #
-# in 200 countries from 1975 to 2014: a pooled analysis of 1698 population-    #
-# based measurement studies with 19.2 million participants", Lancet 2016.      #
+# Firstly, the code checks the data quality and subsequently cleans and codes  # 
+# the data set suitable for analysis. Next, the code performs an exploratory   #
+# data analysis (EDA) to determine which analysis is appropriate for the       #
+# data set. Consequently, clustering (K-means and hierarchical clustering) and #
+# classification (Decision trees, Random Forest and Generalised boosted        #
+# regression model) methods were utilised to analyse the data set.             # 
 ################################################################################
 
 ################################################################################
-# We have chosen to use a line width of more than 80 characters for some of    #
-# the code, so that the whole of particular sections of the code can be seen   #
-# at the same time. On our laptops and desktops the code displays most clearly #
-# in Windows using Programmer's Notepad, and in Linux using gedit.             #
+# We have aimed to limit the code to 80 characters per line in order for it to #
+# fit comfortably on a printed page with a reasonably sized font.              #
+# However, some of the code line widths are more than 80 characters so that    #
+# the whole of particular sections of the code can be seen simultaneously.     #
+# The code displays most clearly on our laptops and desktops in the RStudio    #
+# script editor.                                                               #
 ################################################################################
 
-##### Installing the Relevant Packages #########################################
+##### SET WORKING DIRECTORY ####################################################
+# User should set the relevant working directory.                              #
+# Either Session --> Set Working Directory --> To Source File Location         #
+# To Source File Location means that the data will be imported and saved       #
+# IN THE SAME FOLDER where you saved the R Script you're working with!         #
+## OR                                                                          #
+## setwd("")                                                                   #
+# This code used setwd("~/Desktop/Big data assessment 1") as the working       #
+# directory that contained the IntOrg_NCD_variables_2022_02_02 data set.       # 
+################################################################################
+
+##### RELEVANT PACKAGES ########################################################
 ##### Users should install the relevant packages below                         #
+#                                                                              #
+# Use install.packages('') if unable install the required packages from        #
+# library ()                                                                   #
 ################################################################################
 library(corrplot) # for correlation matrix graph visualization.
 library(ggplot2) # for graph visualizations. 
@@ -38,17 +49,33 @@ library(naniar)
 library(performance)
 library(see)
 library(car) # for VIF test.
-library(caTools)
 library(dplyr)
 library(MASS) # for AIC test.
-library(tidyverse)
 library(Amelia)
-library(mlbench)
 library(flexmix)
-library(caret)
 library(effects)
 library(janitor)
 library(ggpubr)
+
+
+
+library(gridExtra)
+library(tidyverse)  
+library(cluster)   
+library(factoextra) 
+library(dendextend)
+library(gplots)
+
+library(mlbench)
+library(caTools)
+library(caret)
+library(dismo)
+library(gbm)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+ 
+
 
 ##### DATA INPUT ###############################################################
 ##### The data are age- & sex-stratified summary statistics for each study.    #
@@ -571,27 +598,99 @@ dends %>% tanglegram(margin_inner = 7)
 library(mlbench)
 library(caTools)
 library(caret)
-install.packages('mice')
-library(mice)
-
-install.packages('dismo')
 library(dismo)
-install.packages('gbm')
 library(gbm)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
 
-##### Data Coding/Cleaning for classification ######################################
-df3 <- df[,c(9,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)] 
+##### Decision trees ###########################################################
+
+##### Decision tree Sex ########################################################
+tree_default <- rpart(MyDataCleaned$Sex ~ ., data = MyDataCleaned)
+rpart.plot(tree_default,extra=2, under = TRUE, varlen=0, faclen=0)
+
+tree_full <- rpart(MyDataCleaned$Sex ~., data= MyDataCleaned, control=rpart.control(minsplit=2, cp=0))
+rpart.plot(tree_full,extra=2,under=TRUE,varlen=0,faclen=0,cex=.7)
+
+confusion_table<-table(MyDataCleaned$Sex, 	predict(tree_default,MyDataCleaned,type="class"))
+confusion_table
+
+correct <- sum(diag(confusion_table))
+error <- sum(confusion_table)-correct
+accuracy <- correct / (correct+error);accuracy
+confusionMatrix(data= predict(tree_default,MyDataCleaned,type="class"), reference = MyDataCleaned$Sex)
+
+##### Decision tree Super Region ###############################################
+tree_default2 <- rpart(MyDataCleaned$Superregion ~ ., data = MyDataCleaned)
+rpart.plot(tree_default2,extra=2, under = TRUE, varlen=0, faclen=0)
+
+tree_full2 <- rpart(MyDataCleaned$Superregion ~., data= MyDataCleaned, control=rpart.control(minsplit=2, cp=0))
+rpart.plot(tree_ful2l,extra=2,under=TRUE,varlen=0,faclen=0,cex=.7)
+
+confusion_table2<-table(MyDataCleaned$Superregion, 	predict(tree_default2,MyDataCleaned,type="class"))
+confusion_table2
+
+correct2 <- sum(diag(confusion_table2))
+error2 <- sum(confusion_table2)-correct2
+accuracy2 <- correct2 / (correct2+error2);accuracy2
+
+##### Random Forest ############################################################
+
+##### Data Coding/Cleaning for classification ##################################
+df3 <- MyDataCleaned[,c(4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,18)] 
 
 ##### Data Train and Test sets #################################################
 set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
 
-split<-sample.split(df2, SplitRatio = 0.7)  
-training_set<-subset(df2,split==TRUE)
-test_set<-subset(df2,split==FALSE) 
+split<-sample.split(df3, SplitRatio = 0.7)  
+training_set<-subset(df3,split==TRUE)
+test_set<-subset(df3,split==FALSE) 
 dim(training_set);dim(test_set)
-topredict_set<-test_set
+topredict_set<-test_set[1:18]  
+topredict_set2<-test_set[2:19]  
 
-##### generalised boosted regression model #####################################
+##### Random Forest Super Region ###############################################
+model_rf<-randomForest(training_set$Superregion~.,data=training_set,importance=TRUE, ntree=1000) 
+preds_rf <- predict(model_rf, topredict_set)              
+(conf_matrix_forest <- table(preds_rf, test_set$Superregion))
+confusionMatrix(conf_matrix_forest) 
+
+##### Random Forest Sex ########################################################
+model_rf2<-randomForest(training_set$Sex~.,data=training_set,importance=TRUE, ntree=1000) 
+preds_rf2 <- predict(model_rf2, topredict_set2)              
+(conf_matrix_forest2 <- table(preds_rf2, test_set$Sex))
+confusionMatrix(conf_matrix_forest2) 
+
+##### Generalised boosted regression model #####################################
+
+##### Data Coding/Cleaning for gbm #############################################
+df4 <- MyDataCleaned[,c(4,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,18)] 
+df4$Sex<-ifelse(df4$Sex=="Female",1,0)
+
+##### Data Train and Test sets #################################################
+set.seed(123) # Makes simulations random numbers the same to ensure all results, figures  are reproducible.
+
+split2<-sample.split(df4, SplitRatio = 0.7)  
+training_set2<-subset(df4,split==TRUE)
+test_set2<-subset(df4,split==FALSE) 
+dim(training_set2);dim(test_set2)
+ 
+##### Sex gbm ################################################################## (change learning rate in names to 05)
+sex.tc5.lr01 <- gbm.step(data=training_set2, gbm.x = 2:21, 
+                            gbm.y = 1, family = "bernoulli", tree.complexity = 5, 	learning.rate = 0.005, bag.fraction = 0.5) 
+
+sex.simp <- gbm.simplify(sex.tc5.lr01, n.drops = 5)
+sex.simp$pred.list[[4]]
+
+sex.tc5.lr005.simp <- gbm.step(training_set2, 	gbm.x=sex.simp$pred.list[[4]], gbm.y=1, 
+                                  tree.complexity=5, learning.rate=0.005)
+
+
+preds <- predict.gbm(sex.tc5.lr005.simp, test_set2, 	n.trees=sex.tc5.lr005.simp$gbm.call$best.trees, type="response")
+pred.limit<-0.25
+confusionMatrix(table(as.numeric(preds>pred.limit),
+                      test_set2[,1]),positive="1")
 
 
 
