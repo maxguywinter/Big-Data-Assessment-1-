@@ -172,30 +172,30 @@ str(MyDataCleaned)
 ################################################################################
 
 ##### Correlation Analysis #####################################################
-datacorrelation <- subset(MyDataCleaned, select =-c(1,2,3,4,5,17,18)) # subset data to remove factors. 
-nums <- unlist(lapply(datacorrelation, is.numeric)) # used to create correlation plot from numeric values
+datacorrelation <- subset(MyDataCleaned, select =-c(1,2,3,4,5,17,18)) # This code subsets the data in order to remove factors. 
+nums <- unlist(lapply(datacorrelation, is.numeric)) # This code creates a correlation plot from numeric values
 Datacorr <- cor(datacorrelation[, nums])
-corrplot(Datacorr, type = "upper", method = "number", number.cex = 0.5, tl.cex = 0.5, title = "\n\n Correlation Plot \n") # correlation matrix graph visualization. 
-pairs(datacorrelation) # graphical matrix visualization.
+corrplot(Datacorr, type = "upper", method = "number", number.cex = 0.5, tl.cex = 0.5, title = "\n\n Correlation Plot \n") # This code creates a correlation matrix graph visualization in order to help us visualize the correlation between all variables. 
+pairs(datacorrelation) # This code displays a graphical matrix visualization.
 
 ##### lollipop chart ###########################################################
-Fig.5 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$ISO, y = MyDataCleaned$Year)) + # Countries (ISO) and Years
+Fig.5 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$ISO, y = MyDataCleaned$Year)) + 
   geom_point(size = 2, color = "#1380A1" ) +
   ggtitle("Country (ISO)", subtitle = "Country data aviable for each year") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
   guides(x = guide_axis(angle = 90)) +
   labs(x = "Countries (ISO)", y = "Years", tag = "Fig.5") +
   theme_economist()
-Fig.5 
+Fig.5 # Figure 5 compares the variables countries (ISO) and years
 
 ##### Bar graphs ###############################################################
-Fig.6 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Sex)) + # sex 
+Fig.6 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Sex)) + 
   geom_bar(fill = "#1380A1") +
   labs(title = "Sex", subtitle = "Number of Males and Females", x= "Sex", tag = "Fig.6") +
   theme_economist()
-Fig.6
+Fig.6 # Figure 6 displays a bar graph showing the number of males and females within the variable "sex"
 
-Fig.7 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Region)) + # Region
+Fig.7 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Region)) + 
   geom_bar(fill = "#1380A1") +
   labs(title = "Region", subtitle = "Number of Regions", x= "Sex", tag = "Fig.7") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
@@ -203,9 +203,9 @@ Fig.7 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Region)) + # Region
   labs(x = "Countries (ISO)", y = "Years", tag = "Fig.5") +
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
-Fig.7
+Fig.7 # Figure 7 is a bar graph displaying the number of regions within the variable "region"
 
-Fig.8 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Superregion)) + # Super Region  
+Fig.8 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Superregion)) +
   geom_bar(fill = "#1380A1") +
   labs(title = "Super Region", subtitle = "Number of Super Regions", x= "Sex", tag = "Fig.8") +
   scale_x_discrete(guide = guide_axis(n.dodge=10)) +
@@ -213,86 +213,105 @@ Fig.8 <- ggplot(MyDataCleaned, aes(MyDataCleaned$Superregion)) + # Super Region
   labs(x = "Countries (ISO)", y = "Years", tag = "Fig.5") +
   theme_economist() + scale_colour_economist() +
   theme(axis.text = element_text(size = 5))
-Fig.8
+Fig.8  # Figure 8 is a bar graph displaying the number of super regions within the variable "super region"
 
 ##### Box plots ################################################################
-Fig.9 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_obesity_children)) + # Prevalence obesity children
+Fig.9 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_obesity_children)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Child Obesity", y = "Child Obesity Prevalence") +
-  theme_economist()
-Fig.10 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_overweight_children)) + # Prevalence overweight children
+  theme_economist() 
+Fig.9 # Figure 9 displays a box plot showing the prevalence of obese children
+
+Fig.10 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_overweight_children)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Child Overweight", y = "Child Overweight Prevalence") +
   theme_economist()
-Fig.11 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_children)) + # Prevalence underweight children
+Fig.10 # Figure 10 is a box plot that shows the prevalence of overweight children
+  
+Fig.11 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_children)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Child Underweight", y = "Child Underweight Prevalence") +
   theme_economist()
-Fig.12 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Mean_BMI_children)) + # Mean BMI children
+Fig.11 # Figure 11 is a box plot that displays the prevelance of underweight children
+  
+Fig.12 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Mean_BMI_children)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Children Mean BMI", y = "Mean BMI") +
   theme_economist()
+Fig.12 # Figure 12 shows a box plot illustrating the mean BMI within children
 
 ggarrange(Fig.9, Fig.10, Fig.11, Fig.12 + rremove("x.text"), 
           labels = c("Fig.7", "Fig.8", "Fig.9", "Fig.10"),
-          ncol = 2, nrow = 2)
+          ncol = 2, nrow = 2) # This code arranges the above figures into one plot in order to see all figures better and easier
 
-Fig.13 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_morbid_obesity_adults)) + # Prevalence morbid_obesity adults
+Fig.13 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_morbid_obesity_adults)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Adult Morbid Obesity", y = "Adult Morbid Obesity Prevalence") + 
   theme_economist()
-Fig.14 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_adults)) + # Prevalence underweight adults
+Fig.13 # Figure 13 shows a box plot illustrating the prevalence of morbid obesity within adults
+  
+Fig.14 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_underweight_adults)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Adult Underweight", y = "Adult Underweight Prevalence") +
   theme_economist()
-Fig.15 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_obesity_adults)) + # Prevalence obesity adults
+Fig.14 # Figure 14 is a box plot that displays the prevelance of underweight adults
+  
+Fig.15 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Prevalence_obesity_adults)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Adult Obesity", y = "Adult Obesity Prevalence") +
   theme_economist()
-Fig.16 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Mean_BMI_adults)) + # Mean BMI adults
+Fig.15 # Figure 15 is a box plot detailing the prevalence of obese adults
+  
+Fig.16 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Mean_BMI_adults)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Adult Mean BMI", y = "Mean BMI") +
   theme_economist()
+Fig.16 # Figure 16 con sists of a box plot displaying the mean BMI within adults
 
 ggarrange(Fig.13, Fig.14, Fig.15, Fig.16 + rremove("x.text"), 
           labels = c("Fig.11", "Fig.12", "Fig.13", "Fig.14"),
-          ncol = 2, nrow = 2)
+          ncol = 2, nrow = 2) # 
 
-Fig.17 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Urbanisation)) + # urbanization 
+Fig.17 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Urbanisation)) + 
   stat_boxplot(geom = "errorbar", width = 0.15) + 
   geom_boxplot() + 
   labs(title = "Urbanisation", y = "Urbanisation Score (0-1)") +
   theme_economist()
-Fig.18 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Western_diet_score)) + # Western diet score 
+Fig.17 # Figure 17 is a box plot that shows the urbanisation score of each country within the data
+  
+Fig.18 <- ggplot(MyDataCleaned, aes(y = MyDataCleaned$Western_diet_score)) + 
   geom_boxplot() + 
   labs(title = "Western Diet Score", y = "Western Diet Score (-2.5-4.5)") +
   theme_economist()
+Fig.18 # Figure 18 is aa box plot that displays the western diet score of each country within the data
 
 ggarrange(Fig.15, Fig.16 + rremove("x.text"), 
           labels = c("Fig.17", "Fig.18"),
-          ncol = 2)
+          ncol = 2) # This code arranges the above figures into one plot in order to see all the figures in one plot
 
 ##### Histograms ###############################################################
-Fig.19 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Diabetes_prevalence)) + # Diabetes Prevalence
+Fig.19 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Diabetes_prevalence)) + 
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "Diabetes Prevalence", x = "Diabtes Prevalence") +
   theme_economist()
-Fig.19
-Fig.20 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Systolic_blood_pressure)) + # Systolic blood Pressure
+Fig.19 # Figure 19 is a histogram that displays the prevelance of diebetes within countries
+
+Fig.20 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Systolic_blood_pressure)) + 
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "Systolic blood Pressure", x = "Systolic blood Pressure") +
   theme_economist()
-Fig.20
+Fig.20 # Figure 20 is a histogram that illustrates systolic blood pressure within each country from the data 
+
 Fig.21 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_raised_blood_pressure)) + # Prevalence Raised Blood Pressure
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
@@ -482,15 +501,15 @@ ggarrange(Fig.41, Fig.42+ rremove("x.text"),
 
 
 ##### Data Coding/Cleaning for clustering ######################################
-df <- subset(MyDataCleaned, select =-c(1,2,3,4,5,17,18))
-df <- na.omit(df)
-df2 <- scale(df)
-head(df2)
-str(df2)
+df <- subset(MyDataCleaned, select =-c(1,2,3,4,5,17,18)) # We use this code in order to clean our data
+df <- na.omit(df) # This code removes any missing data i.e. where there are any NAs within the large data set
+df2 <- scale(df) # We scale the the variable in case one variable has a larger range than another variable
+head(df2) # This code retrieves the first numbers of rows within the data frame - this helps to quickly test whether the data frame has the right type of data in it
+str(df2) # This code displays the variables along with the observations within the data set to ensure we are using the right data
 
 ##### Euclidean distances between the points and visualizations ################
-distance <- get_dist(df2)
-fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+distance <- get_dist(df2) # This code measures the straight line distance between the rows of data
+fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07")) # This code helps us to visualise the distance matrix 
 
 ##### K-means ##################################################################
 k2 <- kmeans(df2, centers = 2, nstart = 25)
