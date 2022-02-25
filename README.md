@@ -1,9 +1,10 @@
-
 ################################################################################
 # This code processes and analyses non-communicable disease (NCD) variables    #
 # from the IntOrg_NCD_variables_2022_02_02 data set. The code was created and  #
-# tested on RStudio version 4.1.1 (2021-08-10). Code developed by Max Winter,  #
-# Andre Faid and Jessica Ndoci.                                                #
+# tested on RStudio version 4.1.1 (2021-08-10).                                #
+#                                                                              #
+# Code developed by Max Winter (mw636), Andre Faid (af525)                     #
+# and Jessica Ndoci (jn339).                                                   #
 #                                                                              #
 # Firstly, the code checks the data quality and subsequently cleans and codes  # 
 # the data set suitable for analysis. Next, the code performs an exploratory   #
@@ -41,26 +42,17 @@
 ################################################################################
 library(corrplot) # for correlation matrix graph visualization.
 library(ggplot2) # for graph visualizations. 
-library(ggthemr)
 library(ggthemes)
-library(hrbrthemes)
-library(devtools)
+library(tidyverse) 
+library(Amelia) # 
 library(naniar)
-library(performance)
-library(see)
-library(car) # for VIF test.
+library(gridExtra)
+library(devtools)
 library(dplyr)
-library(MASS) # for AIC test.
-library(Amelia)
-library(flexmix)
 library(effects)
 library(janitor)
 library(ggpubr)
 
-
-
-library(gridExtra)
-library(tidyverse)  
 library(cluster)   
 library(factoextra) 
 library(dendextend)
@@ -74,8 +66,6 @@ library(gbm)
 library(rpart)
 library(rpart.plot)
 library(randomForest)
- 
-
 
 ##### DATA INPUT ###############################################################
 ##### The data are age- & sex-stratified summary statistics for each study.    #
@@ -302,25 +292,25 @@ Fig.20 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Systolic_blood_pressure)) 
                  bins = 30) +
   labs(title = "Systolic blood Pressure", x = "Systolic blood Pressure") +
   theme_economist()
-Fig.21
-Fig.22 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_raised_blood_pressure)) + # Prevalence Raised Blood Pressure
+Fig.20
+Fig.21 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Prevalence_raised_blood_pressure)) + # Prevalence Raised Blood Pressure
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "Prevalence Raised Blood Pressure", x = "Prevalence Raised Blood Pressure") +
   theme_economist()
-Fig.22
-Fig.23 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education)) + # Years of Education
+Fig.21
+Fig.22 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$Years_of_education)) + # Years of Education
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "Years of Education", x = "Years of Education") +
   theme_economist()
-Fig.23
-Fig.24 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$GDP_USD)) + # GDP
+Fig.22
+Fig.23 <- ggplot(MyDataCleaned, aes(x = MyDataCleaned$GDP_USD)) + # GDP
   geom_histogram(colour = 4, fill = "#1380A1", 
                  bins = 30) +
   labs(title = "GDP($)", x = "GDP($)") +
   theme_economist()
-Fig.24
+Fig.23
 
 ##### Variable Comparisons ######################################################
 
@@ -490,15 +480,6 @@ ggarrange(Fig.41, Fig.42+ rremove("x.text"),
 
 ##### Clustering ################################################################
 
-##### Installing the Relevant Packages #########################################
-##### Users should install the relevant packages below                         #
-################################################################################
-library(gridExtra)
-library(tidyverse)  
-library(cluster)   
-library(factoextra) 
-library(dendextend)
-library(gplots)
 
 ##### Data Coding/Cleaning for clustering ######################################
 df <- subset(MyDataCleaned, select =-c(1,2,3,4,5,17,18))
@@ -592,18 +573,6 @@ dends %>% tanglegram(margin_inner = 7)
 
 ##### Classification ###########################################################
 
-##### Installing the Relevant Packages #########################################
-##### Users should install the relevant packages below                         #
-################################################################################
-library(mlbench)
-library(caTools)
-library(caret)
-library(dismo)
-library(gbm)
-library(rpart)
-library(rpart.plot)
-library(randomForest)
-
 ##### Decision trees ###########################################################
 
 ##### Decision tree Sex ########################################################
@@ -691,6 +660,10 @@ preds <- predict.gbm(sex.tc5.lr005.simp, test_set2, 	n.trees=sex.tc5.lr005.simp$
 pred.limit<-0.25
 confusionMatrix(table(as.numeric(preds>pred.limit),
                       test_set2[,1]),positive="1")
+
+
+
+
 
 
 
