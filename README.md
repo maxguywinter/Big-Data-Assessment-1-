@@ -1,3 +1,7 @@
+Brief: You work for a statistical consultancy that has been commissioned to carry out analysis for a major global organisation. This organisation has collected a large dataset but doesn’t have the expertise to analyse it. Given that they are working with big data, they are also not sure of the quality of the data. They have asked you to write R code for processing and analysing the data. The code needs to have extensive comments, so that when your client runs it, they will understand what each part does, and what types of analytical techniques you have used. You will also need to include comments to tell them which version of R to use, and the versions of any packages required for the analysis.  You should start by checking data quality, then you should carry out EDA (exploratory data analysis) to decide which specific types of analysis are appropriate. Finally, you should carry out the analysis, including appropriate plots. Both clustering and classification methods are generally appropriate for this dataset. You will need to decide how to split the work within your team. The client is paying you for about 20 to 30 hours work if you are in a group of 4. (Grade 78%)
+
+
+
 ```{r} 
 
 ################################################################################
