@@ -1,3 +1,5 @@
+```{r} 
+
 ################################################################################
 # This code processes and analyses non-communicable disease (NCD) variables    #
 # from the IntOrg_NCD_variables_2022_02_02 data set. The code was created and  #
@@ -748,7 +750,7 @@ confusionMatrix(table(as.numeric(preds>pred.limit),
 
 
 
-
+```
 
 
 
